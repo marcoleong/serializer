@@ -177,9 +177,11 @@ final class GraphNavigator
                 // could also simply be an artifical type.
                 if (null !== $handler = $this->handlerRegistry->getHandler($context->getDirection(), $type['name'], $context->getFormat())) {
                     $rs = call_user_func($handler, $visitor, $data, $type, $context);
-                    $this->leaveScope($context, $data);
 
-                    return $rs;
+                    if ($rs) {
+                        $this->leaveScope($context, $data);
+                        return $rs;
+                    }
                 }
 
                 $exclusionStrategy = $context->getExclusionStrategy();
